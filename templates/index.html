@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>TF-IDF Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Загрузка текстового файла</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Загрузить</button>
+    </form>
+
+    {% if data %}
+    <h2>Таблица TF-IDF (Страница {{ page }} из {{ pages }})</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Слово</th>
+                <th>TF</th>
+                <th>IDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.word }}</td>
+                <td>{{ item.tf }}</td>
+                <td>{{ "%.6f" % item.tfidf }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="/page/{{ page - 1 }}">⬅️ Назад</a>
+        {% endif %}
+
+        <span>Страница {{ page }} из {{ pages }}</span>
+
+        {% if page < pages %}
+        <a href="/page/{{ page + 1 }}">Вперёд ➡️</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
